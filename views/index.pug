@@ -1,0 +1,73 @@
+html  
+  head
+    title= title
+    script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+    link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
+    script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
+  body
+    nav(class='navbar navbar-inverse' style='background-color: rgba(10, 10, 10, 1);margin: 1; padding-left:0px;')
+      div(class='navbar-text' style='width: 95%; text-align:center;')
+        p(style="color:powderblue; font-family:  'Times New Roman', serif;font-size:200%;" class="centered text-center") My Library
+
+    nav(class='navbar navbar-inverse' style='background-color: rgba(10, 10, 10, 1); margin:1')
+        div(class='container-fluid')
+          ul(class='nav navbar-nav')
+            li(class='active') <a href='/'>Home</a>
+            li <a href='/checkin' style='height: 10px'>Check In</a>
+            li <a href='/borrower' style='height: 10px'>Add User</a>
+            li <a href='/fines' style='height: 10px'>Fines</a>
+          form(method = 'GET' action = '/' class='navbar-form navbar-right')
+            div(class='form-group')
+              input(type = 'text' class='form-control' name = 'search' placeholder = 'Search by ISBN or Title or Authors name' size='40')
+              | &nbsp; &nbsp;
+              button(type = 'submit' class='btn btn-primary' style = 'width: 150px') Submit
+
+    -if(test != undefined)        
+      div
+        p(style="color:darkblue; font-family:  'Times New Roman', serif;font-size:150%;") #{test}      
+    div
+    -if(message != undefined){
+        if(message.length == 0)
+          p(style="color:darkblue; font-family:  'Times New Roman', serif;font-size:150%;") Your search was unsuccessfull!!
+        else
+          p(style="color:darkblue; font-family:  'Times New Roman', serif;font-size:150%;") Your search returned #{message.length} results!!
+          table.table(class='table-striped')
+            thead
+              tr
+                th(style="background-color:lightblue") Isbn
+                th(style="background-color:lightblue") Title
+                th(style="background-color:lightblue") Author
+                th(style = 'width:160px; background-color:lightblue;') Copies Available
+            tbody
+              each rows in message
+                tr
+                  td 
+                    a(href= '/check?isbn='+ rows.isbn) #{rows.isbn} 
+                  td #{rows.title} 
+                  td #{rows.name}
+                  td #{rows.available}  
+                      
+    -} else {
+          <div id="myCarousel" class="carousel slide" data-ride="carousel" style='margin:1;'>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="item active">
+              <div class="image-position-left">
+                <img src="https://static1.squarespace.com/static/5446c540e4b05d7074088ef0/t/55e6dd7ce4b0c94c8af90ab9/1418734303957/Stockholm-Public-Library-Interior-2.jpg?format=1500w" alt="..."  style="width:1400px;height:520px">
+              </div>
+              </div>
+              <div class="item">
+                <img src="http://www.utdallas.edu/news/imgs/photos-2015-01/library-800-2015-01.jpg" alt="..." style="width:1400px;height:520px">
+              </div>
+            </div>
+          
+            <!-- Controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </div> <!-- Carousel -->
+
+    -}            

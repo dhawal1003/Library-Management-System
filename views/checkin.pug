@@ -1,0 +1,63 @@
+html  
+    head
+        title= title
+        script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+        link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
+        script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
+        style.
+            .table>thead>tr>th
+                {background-color:lightblue;}
+    body
+        nav(class='navbar navbar-inverse' style='background-color: rgba(10, 10, 10, 1);margin: 1; padding-left:0px;')
+            div(class='navbar-text' style='width: 95%; text-align:center;')
+                p(style="color:powderblue; font-family:  'Times New Roman', serif;font-size:200%;" class="centered text-center") My Library
+        nav(class='navbar navbar-inverse' style='background-color: rgba(4, 4, 5, 1);  margin:1;')
+            div(class='container-fluid')
+                ul(class='nav navbar-nav')
+                    li <a href='/'>Home</a>
+                    li(class='active') <a href='/checkin'>Check In</a>
+                    li <a href='/borrower' style='height: 10px'>Add User</a>
+                    li <a href='/fines' style='height: 10px'>Fines</a>
+        div(class='container'  style='margin-top:10')
+            form(method = 'GET' action = '/checkin' class='form-inline')
+                div(class='form-group')    
+                    label Search By: 
+                    | &nbsp; &nbsp;    
+                    select(name = 'selected' class='form-control')
+                        option(value = 'cardid') CardID
+                        option(value = 'isbn') Isbn
+                        option(value = 'name') Name
+                    | &nbsp; &nbsp;    
+                    input(type = 'text', name = 'cinput' class='form-control')
+                    | &nbsp; &nbsp;    
+                    button(type = 'submit' class='btn btn-primary' style = 'width: 150px') Search     
+
+        
+            -if(messageCheckin == 'Success')
+                p(style="color:0f0f58; font-family:  'Times New Roman', serif;font-size:200%;") Book is successfully checked in!!! 
+            -if(res != undefined){
+                -if(res == "")
+                    p(style="color:0f0f58; font-family:  'Times New Roman', serif;font-size:200%;") No results found!!!    
+                -else {
+                    div
+                        form(method = 'GET' action = '/checkin')            
+                            table.table(class='table-striped' )
+                                thead
+                                    tr
+                                        th CardID
+                                        th ISBN
+                                        th Name
+                                        th Select
+                                tbody
+                                
+                                    each rows in res
+                                        tr
+                                            td #{rows.card_id} 
+                                            td #{rows.isbn} 
+                                            td #{rows.name}
+                                            td 
+                                                input(type="radio" name="radios" id="radio2" value = rows.isbn)
+                            button(type = 'submit' class='btn btn-primary' style = 'width: 150px') Check-In
+                -}
+                                    
+            -}    
